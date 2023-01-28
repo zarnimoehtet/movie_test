@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movie_test/tab_bar_widget.dart';
+
+import 'detail_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +16,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(
+        title: "TItle",
+      ),
     );
   }
 }
@@ -61,57 +66,71 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: NestedScrollView(
-      controller: _controller,
+      floatHeaderSlivers: true,
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
-        SliverAppBar(
-          expandedHeight: 200,
-          pinned: true,
-          floating: true,
-          forceElevated: innerBoxIsScrolled,
-          flexibleSpace: FlexibleSpaceBar(
-            //use for spacing of image or title
-            centerTitle: true,
-            title:
-                _isScrolledDone ? const Text("Sprited Away") : const SizedBox(),
-            background: const DetailsPageHeaderItemView(),
-          ),
-          leading: Stack(
-            // normal leading
-            children: const [
-              Padding(
-                padding: EdgeInsets.only(top: 3, left: 10),
-                child: Chip(
-                  backgroundColor: Colors.blueAccent,
-                  label: Text(''),
-                  padding: EdgeInsets.symmetric(vertical: 11, horizontal: 11),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all((Radius.circular(30))),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 13, left: 19),
-                child: Icon(
-                  Icons.arrow_back_ios_rounded,
-                ),
-              ),
-            ],
-          ),
-          actions: const [
-            //normal actions
-            Padding(
-              padding: EdgeInsets.only(right: 8),
-              child: Icon(
-                Icons.search,
-                size: 30,
-              ),
-            )
-          ],
-        )
+        const SliverAppBar(
+            floating: true,
+            pinned: true,
+            expandedHeight: 220,
+            flexibleSpace: FlexibleSpaceBar(
+              // collapseMode: CollapseMode.pin,
+              background: DetailsPageHeaderItemView(),
+            ))
+
+        // SliverAppBar(
+        //   expandedHeight: 200,
+        //   pinned: true,
+        //   floating: true,
+        //   forceElevated: innerBoxIsScrolled,
+        //   flexibleSpace: FlexibleSpaceBar(
+        //     //use for spacing of image or title
+        //     centerTitle: true,
+        //     title:
+        //         _isScrolledDone ? const Text("Sprited Away") : const SizedBox(),
+        //     background: const DetailsPageHeaderItemView(),
+        //   ),
+        //   leading: Stack(
+        //     // normal leading
+        //     children: const [
+        //       Padding(
+        //         padding: EdgeInsets.only(top: 3, left: 10),
+        //         child: Chip(
+        //           backgroundColor: Colors.blueAccent,
+        //           label: Text(''),
+        //           padding: EdgeInsets.symmetric(vertical: 11, horizontal: 11),
+        //           shape: RoundedRectangleBorder(
+        //             borderRadius: BorderRadius.all((Radius.circular(30))),
+        //           ),
+        //         ),
+        //       ),
+        //       Padding(
+        //         padding: EdgeInsets.only(top: 13, left: 19),
+        //         child: Icon(
+        //           Icons.arrow_back_ios_rounded,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        //   actions: const [
+        //     //normal actions
+        //     Padding(
+        //       padding: EdgeInsets.only(right: 8),
+        //       child: Icon(
+        //         Icons.search,
+        //         size: 30,
+        //       ),
+        //     )
+        //   ],
+        // )
       ],
       body: Column(
         // add body
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const TabBarWidget(
+            tabs: ["animie", "actions", "drama", "series"],
+          ),
           ShowCaseView(
             background: Colors.blueGrey,
             padding: const EdgeInsets.all(10),
@@ -125,7 +144,10 @@ class _MyHomePageState extends State<MyHomePage> {
             listItemCount: 5,
             imageSrc:
                 "https://http2.mlstatic.com/D_NQ_NP_927763-MLB29107143395_012019-O.jpg",
-            onClickListItem: () {},
+            onClickListItem: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const DetailsPage()));
+            },
           ),
           ShowCaseView(
             background: Colors.greenAccent,
@@ -213,7 +235,7 @@ class ShowCaseView extends StatelessWidget {
               width: speratorWidth,
             ),
             itemBuilder: (context, index) => InkWell(
-              onTap: (() => onClickListItem),
+              onTap: (() => onClickListItem()),
               child: Container(
                 width: listItemWidth,
                 height: listItemHeight,
